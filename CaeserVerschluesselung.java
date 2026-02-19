@@ -6,9 +6,9 @@ public class CaeserVerschluesselung {
         boolean isRunning = true;
 
         while (isRunning) {
-            System.out.println("--- Caeser Verschluesselung ---");
-            System.out.println("1: Nachricht verschlüsseln");
-            System.out.println("2: Nachricht entschlüsseln"); // Arbeitsauftrag 3 [cite: 54]
+            System.out.println("Caeser Verschluesselung");
+            System.out.println("1: Nachricht verschluesseln");
+            System.out.println("2: Nachricht entschluesseln"); // Arbeitsauftrag 3 [cite: 54]
             System.out.println("3: Beenden");
             System.out.print("Bitte wählen Sie eine Option: ");
 
@@ -16,25 +16,25 @@ public class CaeserVerschluesselung {
             scanner.nextLine();
 
             if (auswahl == 1) {
-                System.out.print("Geben Sie die Nachricht ein: ");
+                System.out.print("Geben Sie den zuverschluessenden Text ein: ");
                 String text = scanner.nextLine();
                 System.out.print("Geben Sie die Verschiebung (k) ein: ");
                 int k = scanner.nextInt();
                 scanner.nextLine();
 
                 String ergebnis = verschluesseln(text, k);
-                System.out.println("Verschlüsselter Text: " + ergebnis);
+                System.out.println("Verschluesselter Text: " + ergebnis);
             }
 
             if (auswahl == 2) {
-                System.out.print("Geben Sie den verschlüsselten Text ein: ");
+                System.out.print("Geben Sie den verschluesselten Text ein: ");
                 String text = scanner.nextLine();
-                System.out.print("Geben Sie die ursprünglichen Verschiebung (k) ein: ");
+                System.out.print("Geben Sie die urspruenglichen Verschiebung (k) ein: ");
                 int k = scanner.nextInt();
                 scanner.nextLine();
 
                 String ergebnis = entschluesseln(text, k);
-                System.out.println("Entschlüsselter Text: " + ergebnis);
+                System.out.println("Entschluesselter Text: " + ergebnis);
             }
 
             if (auswahl == 3) {
@@ -67,3 +67,4 @@ public class CaeserVerschluesselung {
         return verschluesseln(text, -k);
     }
 }
+
