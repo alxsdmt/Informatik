@@ -1,86 +1,101 @@
 import java.util.Scanner;
+import java.util.Arrays;
 
-public class Caeser2 {
+public class CaeserVerschluesselung {
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         boolean isRunning = true;
-        
+
         while (isRunning) {
+            System.out.println();
             System.out.println("Caeser Verschluesselung");
             System.out.println("1: Nachricht verschluesseln");
-            System.out.println("2: nachricht entschluesseln (mt k)");
-            System.out.println("3: nachricht entschluesseln (ohne k)");  
+            System.out.println("2: Nachricht entschluesseln (mit k)");
+            System.out.println("3: Nachricht entschluesseln (ohne k)");
             System.out.println("4: Programm beenden");
-            System.out.print("Bitte waehlen Sie eine Option aus (1/2/3 eingeben): ");
-            
+            System.out.print("Bitte waehlen Sie eine Option (1–4): ");
+
             int auswahl = scanner.nextInt();
             scanner.nextLine();
-            
+
             if (auswahl == 1) {
-                System.out.print("Geben Sie den zuverschluessenden Text ein: ");
+                System.out.print("Geben Sie den zu verschluesselnden Text ein: ");
                 String text = scanner.nextLine();
-                
                 char[] charArr = text.toCharArray();
-                
+
                 System.out.print("Geben Sie die Verschiebung (k) ein: ");
                 int k = scanner.nextInt();
                 scanner.nextLine();
-                
-                System.out.println("Verschluesselter Text: " + verschluesseln(charArr, k));
+
+                System.out.println(verschluesseln(charArr, k));
             }
-            
-            if (auswahl == 2) {
+
+            else if (auswahl == 2) {
                 System.out.print("Geben Sie den verschluesselten Text ein: ");
                 String text = scanner.nextLine();
                 char[] charArr = text.toCharArray();
-                System.out.print("Geben Sie die urspruenglichen Verschiebung (k) ein: ");
+
+                System.out.print("Geben Sie die Verschiebung (k) ein: ");
                 int k = scanner.nextInt();
                 scanner.nextLine();
-                
-                System.out.println("Entschluesselter Text: " + entschluesseln(charArr, k));
+
+                System.out.println(entschluesseln(charArr, k));
             }
-            
-            if (auswahl == 4) {
+
+            else if (auswahl == 3) {
+                System.out.print("Geben Sie den verschluesselten Text ein: ");
+                String text = scanner.nextLine();
+                char[] charArr = text.toCharArray();
+
+                int k = wahrscheinlichstesK(charArr);
+                System.out.println(entschluesseln(Arrays.copyOf(charArr, charArr.length), k));
+            }
+
+            else if (auswahl == 4) {
                 isRunning = false;
             }
         }
+
+        scanner.close();
     }
 
     public static String verschluesseln(char[] charArr, int k) {
-        
-        
         for (int i = 0; i < charArr.length; i++) {
-            char zeichen = charArr[i];
-            
-            if (zeichen >= 'a' && zeichen <= 'z') {
-                charArr[i] = (char) ((zeichen - 'a' + k + 26) % 26 + 'a');
-                
-            } else if (zeichen >= 'A' && zeichen<= 'Z') {
-                charArr[i] = (char) ((zeichen - 'A' + k + 26) % 26 + 'A');
-                
-            } else {
-                charArr[i] = zeichen;
+            char c = charArr[i];
+
+            if (c >= 'a' && c <= 'z') {
+                charArr[i] = (char) ((c - 'a' + k + 26) % 26 + 'a');
+            } else if (c >= 'A' && c <= 'Z') {
+                charArr[i] = (char) ((c - 'A' + k + 26) % 26 + 'A');
             }
         }
-        String string = String.valueOf(charArr);
-        return string;
+        return String.valueOf(charArr);
     }
 
     public static String entschluesseln(char[] charArr, int k) {
         return verschluesseln(charArr, -k);
     }
-    
-    public static int[] entschluesselnOhneK(char[] charArr) {
-        char[] alphabet = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
-        'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-        
-        for (int i = 0; i <= charArr.length; i++) {
-            for (char charaktere : charArr) {
-                if (charaktere ==  (char) ( 'a' || 'b' || 'c' || 'd' || 'e' || 'f' || 'g' || 'h' || 'i' || 'j' || 'k' || 'l' || 'm' || 'n' || 'o' || 'p' || 'q' || 'r' || 's' || 't' || 'u' || 'v' || 'w' || 'x' || 'y' || 'z')) {
-                    charAuftreten[i] = charAuftreten[i]++;
-                } // end of if
-            } // end of for
-        } // end of for
-        return charAuftreten;
+
+    public static int wahrscheinlichstesK(char[] charArr) {
+        int[] haeufigkeit = new int[26];
+
+        for (char c : charArr) {
+            if (c >= 'a' && c <= 'z') {
+                haeufigkeit[c - 'a']++;
+            } else if (c >= 'A' && c <= 'Z') {
+                haeufigkeit[c - 'A']++;
+            }
+        }
+
+        int maxIndex = 0;
+        for (int i = 1; i < haeufigkeit.length; i++) {
+            if (haeufigkeit[i] > haeufigkeit[maxIndex]) {
+                maxIndex = i;
+            }
+        }
+
+        int indexE = 'e' - 'a';
+        return (maxIndex - indexE + 26) % 26;
     }
 }
