@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Arrays;
 
@@ -13,7 +14,8 @@ public class CaeserVerschluesselung {
             System.out.println("1: Nachricht verschluesseln");
             System.out.println("2: Nachricht entschluesseln (mit k)");
             System.out.println("3: Nachricht entschluesseln (ohne k)");
-            System.out.println("4: Programm beenden");
+            System.out.println("4: Nachricht verschluesseln (polyalphabetisch)");
+            System.out.println("5: Programm beenden");
             System.out.print("Bitte waehlen Sie eine Option (1–4): ");
 
             int auswahl = scanner.nextInt();
@@ -53,6 +55,15 @@ public class CaeserVerschluesselung {
             }
 
             else if (auswahl == 4) {
+                System.out.print("Geben Sie den zu verschluesselnden Text ein: ");
+                String text = scanner.nextLine();
+                char[] charArr = text.toCharArray();
+
+
+               polyalphabetischeVerschluesselung(charArr);
+            }
+
+            else if (auswahl == 5) {
                 isRunning = false;
             }
         }
@@ -97,5 +108,27 @@ public class CaeserVerschluesselung {
 
         int indexE = 'e' - 'a';
         return (maxIndex - indexE + 26) % 26;
+    }
+
+    public static void polyalphabetischeVerschluesselung(char[] charArr){
+        Random rnd = new Random();
+        int[] key = new int[charArr.length];
+
+
+        for (int i = 0; i < charArr.length; i++) {
+            char c = charArr[i];
+
+            if (c >= 'a' && c <= 'z') {
+                key[i] = rnd.nextInt(26);
+                charArr[i] = (char) ((c - 'a' + key[i] + 26) % 26 + 'a');
+            } else if (c >= 'A' && c <= 'Z') {
+                key[i] = rnd.nextInt(26);
+                charArr[i] = (char) ((c - 'A' + key[i] + 26) % 26 + 'A');
+            }
+        }
+
+        System.out.println(String.valueOf(charArr));
+        System.out.println("Key: " + Arrays.toString(key));
+
     }
 }
